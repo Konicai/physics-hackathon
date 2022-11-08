@@ -1,16 +1,24 @@
-from numbers import Number
+import math
 
 from ursina import Ursina, Color, Texture, mouse, color, camera, Vec3, Entity
 from PIL import Image
+from ursina.camera import Camera
 
 app = Ursina()
 
 
 def set_pixel(x: int, y: int, tex: Texture, pix_color: Color):
     try:
+        if tex.get_pixel(x, y) == pix_color:
+            return
+    except: pass
+
+    try:
         tex.set_pixel(x, y, pix_color)
-    finally:
+    except IndexError:
         print(f"Failed to set pixed at {(x, y)}")
+    else:
+        print(f"Set pixel at {(x, y)}")
 
 
 def draw_line(x1: int, y1: int, x2: int, y2: int, tex: Texture, pix_color: Color):
@@ -21,7 +29,7 @@ def draw_line(x1: int, y1: int, x2: int, y2: int, tex: Texture, pix_color: Color
     end: int
     step: int
 
-    if slope < 1:
+    if abs(slope) < 1:
         # Angle with x-axis is less than 90 degrees. Iterate in terms of x
 
         if x1 < x2:
@@ -33,7 +41,7 @@ def draw_line(x1: int, y1: int, x2: int, y2: int, tex: Texture, pix_color: Color
 
         for xi in range(start, end):
             yi = round(slope * xi + b)
-            set_pixel(xi, cap(yi, 64), tex, pix_color)
+            set_pixel(xi, yi, tex, pix_color)
     else:
         # Angle with x-axis is greater than 90 degrees. Iterate in terms of y
 
@@ -64,14 +72,6 @@ def draw_vertical(x: int, y1: int, y2: int, tex: Texture, pix_color: Color):
         set_pixel(x, yi, tex, pix_color)
 
 
-def cap(num, max):
-    if num <= max:
-        return num
-    else:
-        print(f"{num} exceeded max {max}, capping.")
-        return max
-
-
 class Canvas(Entity):
     def __init__(self, add_to_scene_entities=True, **kwargs):
         super().__init__(add_to_scene_entities, **kwargs)
@@ -79,12 +79,11 @@ class Canvas(Entity):
         self.last_y = 0
 
     def update(self):
-        res = 64
         loc = mouse.point
 
         if loc is not None:
-            x = round((loc.x + 0.5) * res)
-            y = round((loc.z + 0.5) * res)
+            x = math.floor((loc.x + 0.5) * size)
+            y = math.floor((loc.z + 0.5) * size)
 
             if mouse.left or mouse.right:
                 pix_color = color.black if mouse.left else color.white
@@ -106,11 +105,12 @@ class Canvas(Entity):
             self.last_y = y
 
 
-canvtex = Texture(Image.new(mode="RGBA", size=(64, 64), color=(255, 255, 255, 255)))
-c = Canvas(model='plane', texture=canvtex, collider='box')
+size = 64
+canvas_texture = Texture(Image.new(mode="RGBA", size=(size, size), color=(255, 255, 255, 255)))
+c = Canvas(model='plane', texture=canvas_texture, collider='box')
 
-cam = camera
-cam.position = Vec3(0, 4, 0)
+cam: Camera = camera
+cam.position = Vec3(0, 3, 0)
 cam.look_at(Vec3(0, 0, 0), axis='forward')
 
 app.run()

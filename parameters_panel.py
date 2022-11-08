@@ -23,11 +23,11 @@ def set_param(name: str, value):
     setattr(_get_params(), name, value)
 
 
-def make_file_button_text(selectedFile):
-    return f"Select Slit Mask ({selectedFile})"
+def make_file_button_text(selected_file):
+    return f"Select Slit Mask ({selected_file})"
 
 
-def updateResolution(slider: Slider) -> float:
+def update_resolution(slider: Slider) -> float:
     """Sets the value on the slider to an appropriate resolution. Returns the new value"""
     slider.value = utils.find_nearest_2n(slider.value)
     return slider.value
@@ -89,13 +89,13 @@ class ParametersPanel(WindowPanel):
             return False
 
         params = _get_params()
-        params.wavelength = self.wavelength.value * 0.001 #nm to um
+        params.wavelength = self.wavelength.value * 0.001  # nm to um
         params.brightnessFactor = self.brightness.value * 100
-        params.tick_distance = self.tick.value * 1000 #mm to um
+        params.tick_distance = self.tick.value * 1000  # mm to um
         params.visualizerAmount = self.visualizer_amount.value * 1
-        params.detectorDistance = self.detector_distance.value * 1000 #mm to um
+        params.detectorDistance = self.detector_distance.value * 1000  # mm to um
         params.lowResolution = self.low_res.value
-        params.width = self.width.value * 1000 #mm to um
+        params.width = self.width.value * 1000  # mm to um
         return True
 
     def show_file_selector(self):
@@ -113,7 +113,7 @@ class ParametersPanel(WindowPanel):
         self.visible = True
 
     #
-    def onSelectFileCancelled(self):
+    def on_select_file_cancelled(self):
         self.enabled = True  # Show parameters panel
         self.visible = True
         self.file_browser.visible = False
@@ -126,7 +126,7 @@ class ParametersPanel(WindowPanel):
 
         self.file_warning = Text("A slit mask must be chosen before simulation", color=color.red, visible=False)
 
-        self.wavelength = ThinSlider(min=500, max=10000, step=10, default=1000) #  nm
+        self.wavelength = ThinSlider(min=500, max=10000, step=10, default=1000)  # nm
         self.brightness = ThinSlider(min=500, max=10000, step=10, default=7000)
         self.tick = ThinSlider(min=1, max=1000, step=1, default=600)
 
@@ -142,16 +142,16 @@ class ParametersPanel(WindowPanel):
         # The submit button on the file selector
         self.file_browser.on_submit = self.on_select_file
         # The close button and the little x at the corner of the file selector
-        self.file_browser.cancel_button.on_click = self.onSelectFileCancelled
-        self.file_browser.cancel_button_2.on_click = self.onSelectFileCancelled
+        self.file_browser.cancel_button.on_click = self.on_select_file_cancelled
+        self.file_browser.cancel_button_2.on_click = self.on_select_file_cancelled
 
         self.visualizer_amount = ThinSlider(min=1, max=10, default=3, step=1)
         self.detector_distance = ThinSlider(min=10, max=10000, default=1000, step=10)
 
         self.low_res = ThinSlider(min=8, max=128, step=8, default=32)
-        self.low_res.on_value_changed = lambda: updateResolution(self.low_res)
+        self.low_res.on_value_changed = lambda: update_resolution(self.low_res)
 
-        self.width = ThinSlider(min=10, max=100, step=1, default=50) # TODO: DEFAULTS
+        self.width = ThinSlider(min=10, max=100, step=1, default=50)  # TODO: DEFAULTS
 
         super().__init__(title="Simulation Parameters", position=(-.63, .5), content=(
             Text("Wavelength (nm)"),

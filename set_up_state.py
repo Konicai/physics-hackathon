@@ -1,4 +1,3 @@
-import struct
 from parameters import Parameters
 import utils
 from ursina import *

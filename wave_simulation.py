@@ -25,10 +25,9 @@ def simulate():
     # Shallow copy. PLI.Image appears to be immutable
     parameters.Instance = dataclasses.replace(parameters.SoftInstance)
     print("Simulation Parameters:")
-    parameters.Instance.printToConsole()
+    parameters.Instance.print_to_console()
 
     sim = Simulation()
-    #sim = t_sim_threading.Simulation() #DOES NOT WORK
     sim.begin()
 
     # After simulation has stopped, call gui.stet_stopped()
@@ -50,7 +49,7 @@ def stop_simulation():
 
 
 if __name__ == "__main__":
-    parameters.initParams()
+    parameters.init_params()
     gui = MainGui(simulate, stop_simulation)
 
     cam = camera
