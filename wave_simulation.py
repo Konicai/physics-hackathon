@@ -27,7 +27,7 @@ def simulate():
     print("Simulation Parameters:")
     parameters.Instance.print_to_console()
 
-    sim = Simulation()
+    sim = Simulation(gui.set_stopped)
     sim.begin()
 
     # After simulation has stopped, call gui.stet_stopped()

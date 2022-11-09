@@ -8,8 +8,9 @@ from set_up_state import Visualizer
 
 
 class Simulation(Entity):
-    def __init__(self):
+    def __init__(self, signal_stop):
         super().__init__()
+        self.signal_stop = signal_stop
         self.currentTick = 0
         self.currentTickDistance = 0
         self.zoffset = 2
@@ -84,4 +85,5 @@ class Simulation(Entity):
             self.currentTick += 1
             self.currentTickDistance += parameters.Instance.tick_distance
 
-        # Then just need to draw it on the screen now that the pixel values are updated
+        else:
+            self.signal_stop()
