@@ -94,7 +94,7 @@ class ParametersPanel(WindowPanel):
         params.tick_distance = self.tick.value * 1000  # mm to um
         params.visualizerAmount = self.visualizer_amount.value * 1
         params.detectorDistance = self.detector_distance.value * 1000  # mm to um
-        params.lowResolution = self.low_res.value
+        params.resolution = self.resolution.value
         params.width = self.width.value * 1000  # mm to um
         return True
 
@@ -120,10 +120,6 @@ class ParametersPanel(WindowPanel):
         self.file_browser.enabled = False
 
     def __init__(self):
-        """
-        simulateFunction: function that will be called when the simulate button is called
-        """
-
         self.file_warning = Text("A slit mask must be chosen before simulation", color=color.red, visible=False)
 
         self.wavelength = ThinSlider(min=500, max=10000, step=10, default=1000)  # nm
@@ -148,10 +144,10 @@ class ParametersPanel(WindowPanel):
         self.visualizer_amount = ThinSlider(min=1, max=10, default=3, step=1)
         self.detector_distance = ThinSlider(min=10, max=10000, default=1000, step=10)
 
-        self.low_res = ThinSlider(min=8, max=128, step=8, default=32)
-        self.low_res.on_value_changed = lambda: update_resolution(self.low_res)
+        self.resolution = ThinSlider(min=8, max=128, step=8, default=32)
+        self.resolution.on_value_changed = lambda: update_resolution(self.resolution)
 
-        self.width = ThinSlider(min=10, max=100, step=1, default=50)  # TODO: DEFAULTS
+        self.width = ThinSlider(min=10, max=100, step=1, default=50)
 
         super().__init__(title="Simulation Parameters", position=(-.63, .5), content=(
             Text("Wavelength (nm)"),
@@ -165,8 +161,8 @@ class ParametersPanel(WindowPanel):
             self.visualizer_amount,
             Text("Distance to last visualizer (mm)"),
             self.detector_distance,
-            Text("Resolution"),
-            self.low_res,
+            Text("Resolution (pixels)"),
+            self.resolution,
             Text("Visualizer Width (mm)"),
             self.width
         ))

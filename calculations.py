@@ -12,22 +12,22 @@ def distance(dx: float, dy: float, dz: float) -> float:
 
 
 # angle calculation
-def angle(wavelength: float, dist: float) -> float:
-    return (dist % wavelength) / wavelength * 2 * math.pi
+def angle(wavelength: float, ray_distance: float) -> float:
+    return (ray_distance % wavelength) / wavelength * 2 * math.pi
 
 
 # Calculation for wave amplitude
-def amplitude(distz: float, dist: float) -> float:
-    return 1 / dist * (1 + (distz / dist))
+def amplitude(vis_separation: float, dist: float) -> float:
+    return (1 + vis_separation / dist) / dist
 
 
 # Calculating pixel color values
-def cartesian(dz: float, dist: float, wavelength: float) -> Vec2:
-    amp = amplitude(dz, dist)
-    ang = angle(wavelength, dist)
+def cartesian(vis_separation: float, ray_distance: float, wavelength: float) -> Vec2:
+    amp = amplitude(vis_separation, ray_distance)
+    ang = angle(wavelength, ray_distance)
     x = amp * math.cos(ang)
     y = amp * math.sin(ang)
-    return Vec2(x,y)
+    return Vec2(x, y)
 
 
 

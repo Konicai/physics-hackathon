@@ -1,5 +1,4 @@
 from ursina import *
-import parameters
 from PIL import Image
 
 
@@ -12,8 +11,8 @@ def length(vec: Vec2):
     return sqrt(vec.x ** 2 + vec.y ** 2)
 
 
-def get_occlusion_holes(tex: Texture):
-    holes = []
+def get_occlusion_holes(tex: Texture) -> list[Vec2]:
+    holes: list[Vec2] = []
     for x in range(0, tex.width):
         for y in range(0, tex.height):
             if tex.get_pixel(x, y).brightness < 0.5:

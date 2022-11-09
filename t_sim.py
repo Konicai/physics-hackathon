@@ -29,12 +29,12 @@ class Simulation(Entity):
 
             if i != len(visuals):
                 tex = Texture(
-                    Image.new(mode="RGBA", size=(parameters.Instance.lowResolution, parameters.Instance.lowResolution), color=(255, 0, 0, 100)))
+                    Image.new(mode="RGBA", size=(parameters.Instance.resolution, parameters.Instance.resolution), color=(255, 0, 0, 100)))
                 plane = Entity(model='plane', texture=tex, position=(0, self.zoffset - i * spacing, 0))
 
             else:  # special case for final visualiser AKA detector
                 tex = Texture(
-                    Image.new(mode="RGBA", size=(parameters.Instance.lowResolution, parameters.Instance.lowResolution), color=(0, 0, 0, 255)))
+                    Image.new(mode="RGBA", size=(parameters.Instance.resolution, parameters.Instance.resolution), color=(0, 0, 0, 255)))
                 plane = Entity(model='plane', texture=tex, position=(0, self.zoffset - i * spacing, 0))
 
             vis.append(plane)
@@ -45,7 +45,7 @@ class Simulation(Entity):
         self.visualisers: List[Visualizer]
         self.last_tick: int
 
-        (self.planes_to_add, self.visualisers, self.last_tick) = set_up_state.modifiedSetUpTimeState(parameters.Instance)
+        (self.planes_to_add, self.visualisers, self.last_tick) = set_up_state.modified_setup(parameters.Instance)
 
         self.occluder = self.create_occluder(parameters.Instance.occluder)
         self.visgroup += (self.create_visualisers(self.visualisers))

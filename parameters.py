@@ -11,23 +11,27 @@ class Parameters:
     # Generally all of these default values aren't used for the simulation. They are only used to verify the types of
     # values that are inserted into it by the GUI
 
-    # This is also in pixels, in simulation it doesn't look like it because z is skewed
+    # Micrometers (um)
     tick_distance: float = 0.5
 
-    wavelength: float = 0.001  # Also in pixels haha, every length unit is in pixles
+    # Micrometers (um)
+    wavelength: float = 0.001
 
     # Turn up to make brighter pixels, will probably need to be a few hundred or more to see anything
     brightnessFactor: float = 1000
 
-    width: int = 32
+    width: int = 32 # Width of visualizer in um
 
     occluder: Image = None
 
+    # Amount of visualizers
     visualizerAmount: int = 7
 
+    # Distance from the occluder to the final visualizer, in um
     detectorDistance: float = 2000
 
-    lowResolution: int = 16  # For all planes in time simulation
+    # Number of pixels along the length of each visualizer
+    resolution: int = 16  # For all planes in time simulation
 
     def print_to_console(self):
 
