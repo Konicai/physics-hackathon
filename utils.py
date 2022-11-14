@@ -3,7 +3,7 @@ from PIL import Image
 
 
 def resize_image(img: Image, size):
-    img = img.resize((size, size), resample=0)
+    img = img.resize((size, size), resample=Image.NEAREST)
     return img
 
 

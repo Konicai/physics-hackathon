@@ -122,8 +122,8 @@ class ParametersPanel(WindowPanel):
     def __init__(self):
         self.file_warning = Text("A slit mask must be chosen before simulation", color=color.red, visible=False)
 
-        self.wavelength = ThinSlider(min=500, max=10000, step=10, default=1000)  # nm
-        self.brightness = ThinSlider(min=500, max=10000, step=10, default=7000)
+        self.wavelength = ThinSlider(min=400, max=1000, step=10, default=800)  # nm
+        self.brightness = ThinSlider(min=100, max=20000, step=10, default=10000)
         self.tick = ThinSlider(min=1, max=1000, step=1, default=600)
 
         self.file_button = Button(make_file_button_text(None))
@@ -147,7 +147,7 @@ class ParametersPanel(WindowPanel):
         self.resolution = ThinSlider(min=8, max=128, step=8, default=32)
         self.resolution.on_value_changed = lambda: update_resolution(self.resolution)
 
-        self.width = ThinSlider(min=10, max=100, step=1, default=50)
+        self.width = ThinSlider(min=10, max=1000, step=1, default=50)
 
         super().__init__(title="Simulation Parameters", position=(-.63, .5), content=(
             Text("Wavelength (nm)"),
